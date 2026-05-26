@@ -4,7 +4,12 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source Manually
+        run: |
+          rm -rf "$GITHUB_WORKSPACE"/*
+          git clone "https://github.com/${{ github.repository }}.git" "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git checkout "${{ github.sha }}"
 
       - name: Setup Theos
         run: |

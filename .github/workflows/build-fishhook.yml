@@ -22,8 +22,18 @@ jobs:
           mkdir output
           cp .theos/obj/SSLKillSwitch2.dylib output/
 
+      - name: Build config helper
+        run: |
+          xcrun --sdk iphoneos clang -arch arm64 -dynamiclib \
+            -framework Foundation -framework Security \
+            -o app_config.dylib app_config.m \
+            -miphoneos-version-min=15.0
+          cp app_config.dylib output/
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: SSLKillSwitch2-fishhook
-          path: output/SSLKillSwitch2.dylib
+          path: |
+            output/SSLKillSwitch2.dylib
+            output/app_config.dylib

@@ -9,8 +9,8 @@ jobs:
       - name: Setup Theos
         run: |
           brew install make ldid
-          git clone --depth 1 https://github.com/theos/theos.git /opt/theos
-          echo "THEOS=/opt/theos" >> $GITHUB_ENV
+          git clone --depth 1 https://github.com/theos/theos.git $HOME/theos
+          echo "THEOS=$HOME/theos" >> $GITHUB_ENV
 
       - name: Build Fishhook Dylib
         run: |

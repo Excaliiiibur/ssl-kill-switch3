@@ -40,7 +40,7 @@ jobs:
         run: |
           xcrun --sdk iphoneos clang -arch arm64 -dynamiclib \
             -framework Foundation -framework Security \
-            -o diag.dylib diag.m \
+            -o diag.dylib diag.m SSLKillSwitch/fishhook/fishhook.c \
             -miphoneos-version-min=15.0
           cp diag.dylib output/
 

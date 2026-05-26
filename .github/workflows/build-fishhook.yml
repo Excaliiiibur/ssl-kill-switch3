@@ -60,6 +60,14 @@ jobs:
             -miphoneos-version-min=15.0
           cp cred_helper.dylib output/
 
+      - name: Build unarchiver spy
+        run: |
+          xcrun --sdk iphoneos clang -arch arm64 -dynamiclib \
+            -framework Foundation -framework Security \
+            -o unarchiver_spy.dylib unarchiver_spy.m SSLKillSwitch/fishhook/fishhook.c \
+            -miphoneos-version-min=15.0
+          cp unarchiver_spy.dylib output/
+
       - name: Publish config helper to repo
         run: |
           mkdir -p artifacts
@@ -67,10 +75,11 @@ jobs:
           cp output/diag.dylib artifacts/diag.dylib
           cp output/diag_v3.dylib artifacts/diag_v3.dylib
           cp output/cred_helper.dylib artifacts/cred_helper.dylib
+          cp output/unarchiver_spy.dylib artifacts/unarchiver_spy.dylib
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          git add artifacts/app_config.dylib artifacts/diag.dylib artifacts/diag_v3.dylib artifacts/cred_helper.dylib
+          git add artifacts/app_config.dylib artifacts/diag.dylib artifacts/diag_v3.dylib artifacts/cred_helper.dylib artifacts/unarchiver_spy.dylib
           git commit -m "ci: add built helpers [skip ci]" || exit 0
           git push origin HEAD:${{ github.ref_name }}
 
@@ -84,3 +93,4 @@ jobs:
             output/diag.dylib
             output/diag_v3.dylib
             output/cred_helper.dylib
+            output/unarchiver_spy.dylib

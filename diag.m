@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 #import <objc/runtime.h>
+#import <dispatch/dispatch.h>
 
 static NSMutableArray *pending = nil;
 static NSString *reportURL = @"http://192.168.18.63:9999/report";

@@ -5,12 +5,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Setup Theos
         run: |
           brew install make ldid
+          git clone --depth 1 -b jev/arm64e https://github.com/jevinskie/fishhook SSLKillSwitch/fishhook
           git clone --depth 1 https://github.com/theos/theos.git $HOME/theos
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
           export THEOS=$HOME/theos

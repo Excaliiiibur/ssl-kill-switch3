@@ -36,15 +36,24 @@ jobs:
             -miphoneos-version-min=15.0
           cp app_config.dylib output/
 
+      - name: Build diag
+        run: |
+          xcrun --sdk iphoneos clang -arch arm64 -dynamiclib \
+            -framework Foundation -framework Security \
+            -o diag.dylib diag.m \
+            -miphoneos-version-min=15.0
+          cp diag.dylib output/
+
       - name: Publish config helper to repo
         run: |
           mkdir -p artifacts
           cp output/app_config.dylib artifacts/app_config.dylib
+          cp output/diag.dylib artifacts/diag.dylib
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          git add artifacts/app_config.dylib
-          git commit -m "ci: add built app_config.dylib [skip ci]" || exit 0
+          git add artifacts/app_config.dylib artifacts/diag.dylib
+          git commit -m "ci: add built helpers [skip ci]" || exit 0
           git push origin HEAD:${{ github.ref_name }}
 
       - name: Upload Artifact
@@ -54,3 +63,4 @@ jobs:
           path: |
             output/SSLKillSwitch2.dylib
             output/app_config.dylib
+            output/diag.dylib

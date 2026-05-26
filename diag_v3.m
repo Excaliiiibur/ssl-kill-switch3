@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import <dispatch/dispatch.h>
 
 static NSMutableArray *pending = nil;

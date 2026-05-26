@@ -1,0 +1,25 @@
+name: Build Fishhook Dylib
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Theos
+        run: |
+          brew install make ldid
+          git clone --depth 1 https://github.com/theos/theos.git /opt/theos
+          echo "THEOS=/opt/theos" >> $GITHUB_ENV
+
+      - name: Build Fishhook Dylib
+        run: |
+          make FISHHOOK=1 FINALPACKAGE=1
+          mkdir output
+          cp .theos/obj/SSLKillSwitch2.dylib output/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SSLKillSwitch2-fishhook
+          path: output/SSLKillSwitch2.dylib

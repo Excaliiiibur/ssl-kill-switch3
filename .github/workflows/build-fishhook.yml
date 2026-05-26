@@ -11,6 +11,7 @@ jobs:
           brew install make ldid
           git clone --depth 1 https://github.com/theos/theos.git $HOME/theos
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+          $HOME/theos/bin/update-theos
 
       - name: Build Fishhook Dylib
         run: |

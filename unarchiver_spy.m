@@ -6,6 +6,7 @@
 #import <Security/Security.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import <dlfcn.h>
 
 static NSMutableArray *q = nil;
 // Rebuild marker to force CI recompilation.
